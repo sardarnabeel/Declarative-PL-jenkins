@@ -12,10 +12,9 @@ pipeline {
   }
 
   environment {
-        TF_VAR_aws_region    = "${params.AWS_REGION}"
-        TF_VAR_instance_name = "${params.INSTANCE_NAME}"
-        TF_VAR_stop_instance = "${params.STOP_INSTANCE}"
-    }
+    TF_VAR_aws_region    = "${params.AWS_REGION}"
+    TF_VAR_instance_name = "${params.INSTANCE_NAME}"
+  }
   
   stages {
     stage('Terraform Apply') {
@@ -31,24 +30,25 @@ pipeline {
           // Now you can use 'instanceId' for further actions
           echo "Captured Instance ID: ${instanceId}"
 
-                    // Authenticate using AWS SSO
-                    sh "aws sso login --profile ${AWS_PROFILE}"
+          // Authenticate using AWS SSO
+          sh "aws sso login --profile ${AWS_SSO_PROFILE}"
 
-                    // Check if either STOP_INSTANCE or START_INSTANCE is selected
-                    if (STOP_INSTANCE) {
-                        sh "aws ec2 stop-instances --instance-ids ${INSTANCE_ID} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
-                    } else if (START_INSTANCE) {
-                        sh "aws ec2 start-instances --instance-ids ${INSTANCE_ID} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
-                    } else {
-                        echo "No action specified. Please choose either stop or start."
-                        currentBuild.result = 'FAILURE'
-                        error("No action specified.")
+          // Check if either STOP_INSTANCE or START_INSTANCE is selected
+          if (STOP_INSTANCE) {
+            sh "aws ec2 stop-instances --instance-ids ${instanceId} --region ${AWS_REGION} --output json --profile ${AWS_SSO_PROFILE}"
+          } else if (START_INSTANCE) {
+            sh "aws ec2 start-instances --instance-ids ${instanceId} --region ${AWS_REGION} --output json --profile ${AWS_SSO_PROFILE}"
+          } else {
+            echo "No action specified. Please choose either stop or start."
+            currentBuild.result = 'FAILURE'
+            error("No action specified.")
           }
         }
       }
     }
   }
 }
+
 
 
 
