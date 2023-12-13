@@ -11,10 +11,10 @@ pipeline {
   }
 
   environment {
-    TF_VAR_aws_region      = params.AWS_REGION
-    TF_VAR_instance_name   = params.INSTANCE_NAME
-    TF_VAR_stop_instance   = params.STOP_INSTANCE
-  }
+        TF_VAR_aws_region    = "${params.AWS_REGION}"
+        TF_VAR_instance_name = "${params.INSTANCE_NAME}"
+        TF_VAR_stop_instance = "${params.STOP_INSTANCE}"
+    }
   
   stages {
     stage('Terraform Apply') {
