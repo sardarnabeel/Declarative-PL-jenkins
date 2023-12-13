@@ -27,7 +27,8 @@ pipeline {
 
           // Capture the instance ID from Terraform output
           def instanceId = sh(script: 'terraform output instance_id', returnStdout: true).trim()
-
+          // Set the value of INSTANCE_ID
+          env.INSTANCE_ID = instanceId
           // Now you can use 'instanceId' for further actions
           echo "Captured Instance ID: ${instanceId}"
 
