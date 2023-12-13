@@ -34,9 +34,9 @@ pipeline {
 
                     // Check if either STOP_INSTANCE or START_INSTANCE is selected
                     if (params.STOP_INSTANCE) {
-                        sh "aws ec2 stop-instances --instance-ids ${INSTANCE_ID} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
+                        sh "aws ec2 stop-instances --instance-ids ${instanceId} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
                     } else if (params.START_INSTANCE) {
-                        sh "aws ec2 start-instances --instance-ids ${INSTANCE_ID} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
+                        sh "aws ec2 start-instances --instance-ids ${instanceId} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
                     } else {
                         echo "No action specified. Please choose either stop or start."
                         currentBuild.result = 'FAILURE'
