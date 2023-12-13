@@ -33,15 +33,15 @@ pipeline {
           // Authenticate using AWS SSO
           sh "aws sso login --profile ${AWS_SSO_PROFILE}"
 
-          // Check if either STOP_INSTANCE or START_INSTANCE is selected
-          if (STOP_INSTANCE) {
-            sh "aws ec2 stop-instances --instance-ids ${instanceId} --region ${AWS_REGION} --output json --profile ${AWS_SSO_PROFILE}"
-          } else if (START_INSTANCE) {
-            sh "aws ec2 start-instances --instance-ids ${instanceId} --region ${AWS_REGION} --output json --profile ${AWS_SSO_PROFILE}"
-          } else {
-            echo "No action specified. Please choose either stop or start."
-            currentBuild.result = 'FAILURE'
-            error("No action specified.")
+                    // Check if either STOP_INSTANCE or START_INSTANCE is selected
+                    if (params.STOP_INSTANCE) {
+                        sh "aws ec2 stop-instances --instance-ids ${INSTANCE_ID} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
+                    } else if (params.START_INSTANCE) {
+                        sh "aws ec2 start-instances --instance-ids ${INSTANCE_ID} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
+                    } else {
+                        echo "No action specified. Please choose either stop or start."
+                        currentBuild.result = 'FAILURE'
+                        error("No action specified.")
           }
         }
       }
@@ -88,9 +88,9 @@ pipeline {
 //                     sh "aws sso login --profile ${AWS_PROFILE}"
 
 //                     // Check if either STOP_INSTANCE or START_INSTANCE is selected
-//                     if (STOP_INSTANCE) {
+//                     if (params.STOP_INSTANCE) {
 //                         sh "aws ec2 stop-instances --instance-ids ${INSTANCE_ID} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
-//                     } else if (START_INSTANCE) {
+//                     } else if (params.START_INSTANCE) {
 //                         sh "aws ec2 start-instances --instance-ids ${INSTANCE_ID} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
 //                     } else {
 //                         echo "No action specified. Please choose either stop or start."
