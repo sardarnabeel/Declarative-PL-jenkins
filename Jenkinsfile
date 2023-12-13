@@ -14,7 +14,6 @@ pipeline {
   environment {
     TF_VAR_aws_region    = "${params.AWS_REGION}"
     TF_VAR_instance_name = "${params.INSTANCE_NAME}"
-    INSTANCE_ID = ''
   }
   
   stages {
@@ -27,8 +26,6 @@ pipeline {
 
           // Capture the instance ID from Terraform output
           def instanceId = sh(script: 'terraform output instance_id', returnStdout: true).trim()
-          // Set the value of INSTANCE_ID
-          env.INSTANCE_ID = instanceId
           // Now you can use 'instanceId' for further actions
           echo "Captured Instance ID: ${instanceId}"
 
