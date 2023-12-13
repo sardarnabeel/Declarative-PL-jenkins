@@ -14,6 +14,7 @@ pipeline {
   environment {
     TF_VAR_aws_region    = "${params.AWS_REGION}"
     TF_VAR_instance_name = "${params.INSTANCE_NAME}"
+    AWS_PROFILE = "${params.AWS_PROFILE}"
   }
   
   stages {
