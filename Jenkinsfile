@@ -5,7 +5,7 @@ pipeline {
 
   parameters {
     string(name: 'AWS_REGION', description: 'AWS Region', defaultValue: 'your-aws-region', trim: true)
-    string(name: 'AWS_SSO_PROFILE', description: 'AWS SSO Profile', defaultValue: 'your-sso-profile-name', trim: true)
+    string(name: 'AWS_PROFILE', description: 'AWS CLI Profile (SSO user)', defaultValue: 'your-aws-profile', trim: true)
     string(name: 'INSTANCE_NAME', description: 'Instance Name Tag', defaultValue: 'example-instance', trim: true)
     booleanParam(name: 'STOP_INSTANCE', description: 'Stop EC2 Instance', defaultValue: false)
     booleanParam(name: 'START_INSTANCE', description: 'Start EC2 Instance', defaultValue: false)
