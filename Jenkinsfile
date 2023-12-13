@@ -27,17 +27,15 @@ pipeline {
 
           // Capture the instance ID from Terraform output
           def instanceId = sh(script: 'terraform output instance_id', returnStdout: true).trim()
-          // Now you can use 'instanceId' for further actions
           echo "Captured Instance ID: ${instanceId}"
 
-          // Authenticate using AWS SSO
+          // login with AWS SSO
           sh "aws sso login --profile ${AWS_PROFILE}"
 
                     // Check if either STOP_INSTANCE or START_INSTANCE is selected
                     if (params.STOP_INSTANCE) {
                         sh "aws ec2 stop-instances --instance-ids ${instanceId} --region ${TF_VAR_aws_region} --output json --profile ${AWS_PROFILE}"
                     } else if (params.START_INSTANCE) {
-                        //sh "aws ec2 start-instances --instance-ids ${instanceId} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
                         sh "aws ec2 start-instances --instance-ids ${instanceId} --region ${TF_VAR_aws_region} --output json --profile ${AWS_PROFILE}"
                     } else {
                         echo "No action specified. Please choose either stop or start."
