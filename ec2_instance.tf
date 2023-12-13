@@ -17,7 +17,7 @@ variable "stop_instance" {
 
 provider "aws" {
   region = var.aws_region
-  profile = "nabeel"  # Replace with your AWS SSO profile name
+  # profile = "nabeel"  # Replace with your AWS SSO profile name
 }
 
 resource "aws_instance" "example" {
