@@ -14,7 +14,6 @@ pipeline {
   environment {
     TF_VAR_aws_region    = "${params.AWS_REGION}"
     TF_VAR_instance_name = "${params.INSTANCE_NAME}"
-    INSTANCE_ID          = '' // Initialize INSTANCE_ID
   }
   
   stages {
@@ -27,8 +26,6 @@ pipeline {
 
           // Capture the instance ID from Terraform output
           def instanceId = sh(script: 'terraform output instance_id', returnStdout: true).trim()
-          // Set the value of INSTANCE_ID
-          env.INSTANCE_ID = instanceId
           // Now you can use 'instanceId' for further actions
           echo "Captured Instance ID: ${instanceId}"
 
@@ -37,9 +34,9 @@ pipeline {
 
                     // Check if either STOP_INSTANCE or START_INSTANCE is selected
                     if (params.STOP_INSTANCE) {
-                        sh "aws ec2 stop-instances --instance-ids ${env.INSTANCE_ID} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
+                        sh "aws ec2 stop-instances --instance-ids ${INSTANCE_ID} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
                     } else if (params.START_INSTANCE) {
-                        sh "aws ec2 start-instances --instance-ids ${env.INSTANCE_ID} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
+                        sh "aws ec2 start-instances --instance-ids ${INSTANCE_ID} --region ${AWS_REGION} --output json --profile ${AWS_PROFILE}"
                     } else {
                         echo "No action specified. Please choose either stop or start."
                         currentBuild.result = 'FAILURE'
