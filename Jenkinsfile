@@ -31,7 +31,7 @@ pipeline {
           echo "Captured Instance ID: ${instanceId}"
 
           // Authenticate using AWS SSO
-          sh "aws sso login --profile ${AWS_SSO_PROFILE}"
+          sh "aws sso login --profile ${AWS_PROFILE}"
 
                     // Check if either STOP_INSTANCE or START_INSTANCE is selected
                     if (params.STOP_INSTANCE) {
